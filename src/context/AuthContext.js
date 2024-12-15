@@ -30,7 +30,14 @@ export const AuthProvider = ({ children }) => {
     const fetchUser = async () => {
         try {
             const response = await AuthenticationApi.fetchUser();
-            setUser(response);
+            setUser({
+                email: response.email,
+                phoneNumber: response.phone_number,
+                firstName: response.first_name,
+                lastName: response.last_name,
+                nationalId: response.national_id,
+                dateJoined: response.date_joined,
+            });
             console.log(response);
             setIsAuthenticated(true);
         } catch (error) {
@@ -67,9 +74,10 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = async () => {
-        const refreshToken = localStorage.getItem("refresh")
-        const response = await AuthenticationApi.logout(refreshToken);
-        console.log(response);
+        const refreshToken = localStorage.getItem("refresh");
+        const response = await AuthenticationApi.logout(refreshToken).catch(
+            () => {}
+        );
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
         delete api.defaults.headers.common["Authorization"];

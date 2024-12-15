@@ -71,6 +71,7 @@ export const AuthenticationApi = {
                 email: formData.email,
                 national_id: formData.nationalCode,
                 password: formData.password,
+                date_of_birth: formData.birthDate,
             });
             return response.data;
         } catch (error) {
