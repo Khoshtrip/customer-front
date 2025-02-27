@@ -65,7 +65,18 @@ const PackagesPage = () => {
             .finally(() => setIsLoading(false));
     };
 
-    const onPurchasePackage = async (packageId) => {};
+    const onPurchasePackage = async (packageId, quantity) => {
+        await PackagesApi.generateTransaction(packageId, quantity)
+            .then((response) => {
+                window.location.href = response.data.payment_url;
+            })
+            .catch((error) => {
+                showGlobalAlert({
+                    variant: "danger",
+                    message: "Error purchasing package",
+                });
+            });
+    };
 
     useEffect(() => {
         fetchPackages(1);

@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Carousel, ListGroup, Row } from "react-bootstrap";
+import {
+    Modal,
+    Button,
+    Carousel,
+    ListGroup,
+    Row,
+    Form,
+    Stack,
+} from "react-bootstrap";
 import { PackagesApi } from "../../apis/PackagesApi"; // API call to fetch package details
 import Khoshpinner from "../core/Khoshpinner";
 
 const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
     const [packageData, setPackageData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
         if (packageId) {
@@ -96,14 +105,28 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
                 </ListGroup>
             </Modal.Body>
             <Modal.Footer as={Row}>
-                <Button
-                    variant="outline-success"
-                    onClick={() => {
-                        onPurchasePackage(packageId);
-                    }}
-                >
-                    Purchase
-                </Button>
+                <Form>
+                    <Stack direction="horizontal">
+                        <Form.Control
+                            type="number"
+                            placeholder="Quantity"
+                            value={quantity}
+                            onChange={(e) => setQuantity(e.target.value)}
+                            style={{ width: "10%" }}
+                            // className="float-end me-2"
+                        />
+                        <Button
+                            variant="success"
+                            className="float-end rounded-pill px-4 ms-2"
+                            style={{ width: "90%" }}
+                            onClick={() =>
+                                onPurchasePackage(packageId, quantity)
+                            }
+                        >
+                            Purchase
+                        </Button>
+                    </Stack>
+                </Form>
             </Modal.Footer>
         </Modal>
     );
