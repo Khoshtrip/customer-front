@@ -6,10 +6,6 @@ const MainPage = () => {
         <div className="main-page">
             <h1>Welcome to KhoshTrip</h1>
             <p>Plan your next adventure with ease!</p>
-            {/*<div className="featured-trips">
-                <h2>Featured Trips</h2>
-                <div className="trip-list"></div>
-            </div>*/}
         </div>
     );
 };

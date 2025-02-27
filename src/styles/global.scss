@@ -23,9 +23,54 @@
 }
 
 $font-family-base: "Kalameh", sans-serif;
-$body-bg: #fbf4f4;
-
+$body-bg: #fbf9f9;
 
 $primary: #370000;
+$secondary: #fbf9f9;
+$tertiary: #0f0100;
+
+$on-primary: #fbf9f9;
+$on-secondary: #370000;
+$on-tertiary: #fbf9f9;
+
+.on-primary {
+    color: $on-primary !important;
+}
+
+.on-secondary {
+    color: $on-secondary !important;
+}
+
+.on-tertiary {
+    color: $on-tertiary !important;
+}
+
+// Define background color utilities
+.bg-primary {
+    background-color: $primary !important;
+    color: $on-primary !important;
+}
+
+.bg-secondary {
+    background-color: $secondary !important;
+    color: $on-secondary !important;
+}
+
+.bg-tertiary {
+    background-color: $tertiary !important;
+    color: $on-tertiary !important;
+}
+
+.border-on-primary {
+    border-color: $on-primary !important;
+}
+
+.border-on-secondary {
+    border-color: $on-secondary !important;
+}
+
+.border-on-tertiary {
+    border-color: $on-tertiary !important;
+}
 
 @import "../../node_modules/bootstrap/scss/bootstrap";

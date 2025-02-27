@@ -31,14 +31,13 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await AuthenticationApi.fetchUser();
             setUser({
-                email: response.email,
-                phoneNumber: response.phone_number,
-                firstName: response.first_name,
-                lastName: response.last_name,
-                nationalId: response.national_id,
-                dateJoined: response.date_joined,
+                email: response.data.email,
+                phoneNumber: response.data.phone_number,
+                firstName: response.data.first_name,
+                lastName: response.data.last_name,
+                nationalId: response.data.national_id,
+                dateJoined: response.data.date_joined,
             });
-            console.log(response);
             setIsAuthenticated(true);
         } catch (error) {
             throw error;
@@ -50,12 +49,11 @@ export const AuthProvider = ({ children }) => {
     const login = async (username, password) => {
         try {
             const response = await AuthenticationApi.login(username, password);
-            localStorage.setItem("access", response.access);
-            localStorage.setItem("refresh", response.refresh);
-            console.log(response);
+            localStorage.setItem("access", response.data.access);
+            localStorage.setItem("refresh", response.data.refresh);
             api.defaults.headers.common[
                 "Authorization"
-            ] = `Bearer ${response.access}`;
+            ] = `Bearer ${response.data.access}`;
             await fetchUser();
         } catch (error) {
             console.error("Login error:", error);
@@ -66,7 +64,6 @@ export const AuthProvider = ({ children }) => {
     const signup = async (userData) => {
         try {
             const response = await AuthenticationApi.signup(userData);
-            // await fetchUser();
         } catch (error) {
             console.error("Signup error:", error);
             throw error;

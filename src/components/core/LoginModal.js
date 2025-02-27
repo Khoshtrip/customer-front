@@ -1,9 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext";
-import "../styles/Login.css";
+import { AuthContext } from "../../context/AuthContext";
+import "../../styles/core/Login.css";
 import { Form, Modal, Button, Col, Row, Stack, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { AuthenticationApi } from "../apis/AuthenticationApi";
+import { AuthenticationApi } from "../../apis/AuthenticationApi";
+import { showGlobalAlert } from "./KhoshAlert";
 
 const LoginState = {
     LOGIN: "login",
@@ -12,9 +13,9 @@ const LoginState = {
     VERIFICATION_CONTACT: "verification_contact",
 };
 
-const Login = ({ show, onHide }) => {
+const LoginModal = ({ show, onHide }) => {
     const [loginState, setLoginState] = useState(LoginState.LOGIN);
-    const { login, signup, loading } = useContext(AuthContext);
+    const { login, signup, loading, user } = useContext(AuthContext);
     const [alert, setAlert] = useState({
         shouldShow: false,
         variant: "success",
@@ -30,7 +31,6 @@ const Login = ({ show, onHide }) => {
         lastName: "",
         passwordRepeat: "",
         verifyCode: "",
-        verified_contact: "email",
         birthDate: "1-1-1",
     });
 
@@ -69,14 +69,20 @@ const Login = ({ show, onHide }) => {
         validateField(e.target.name, value);
         setTouch({ ...touch, [e.target.name]: true });
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         switch (loginState) {
             case LoginState.LOGIN:
                 await login(formData.phone_number, formData.password)
-                    .then(onClose)
+                    .then(() => {
+                        onClose();
+                        console.log(user);
+                        showGlobalAlert({
+                            variant: "success",
+                            message: "successfully logged in!",
+                        });
+                    })
                     .catch(() => {
                         let newErrors = { ...errors };
                         newErrors.phone_number = "Invalid username or password";
@@ -87,24 +93,17 @@ const Login = ({ show, onHide }) => {
             case LoginState.SIGNUP:
                 await signup(formData)
                     .then(() => {
-                        setAlert({
-                            shouldShow: true,
+                        showGlobalAlert({
                             variant: "success",
                             message: "successfully signed up!",
                         });
                         setTimeout(() => {
-                            setAlert({
-                                shouldShow: false,
-                                variant: "success",
-                                message: "successfully signed up!",
-                            });
                             resetState();
                             setLoginState(LoginState.LOGIN);
                         }, 1500);
                     })
                     .catch(() => {
-                        setAlert({
-                            shouldShow: true,
+                        showGlobalAlert({
                             variant: "danger",
                             message:
                                 "This phone number already has an account!",
@@ -138,12 +137,84 @@ const Login = ({ show, onHide }) => {
                         newErrors.code = "Invalid code";
                         setErrors(newErrors);
                     });
-                //
                 break;
             default:
                 break;
         }
     };
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     switch (loginState) {
+    //         case LoginState.LOGIN:
+    //             await login(formData.phone_number, formData.password)
+    //                 .then(onClose)
+    //                 .catch(() => {
+    //                     let newErrors = { ...errors };
+    //                     newErrors.phone_number = "Invalid username or password";
+    //                     newErrors.password = "Invalid username or password";
+    //                     setErrors(newErrors);
+    //                 });
+    //             break;
+    //         case LoginState.SIGNUP:
+    //             await signup(formData)
+    //                 .then(() => {
+    //                     setAlert({
+    //                         shouldShow: true,
+    //                         variant: "success",
+    //                         message: "successfully signed up!",
+    //                     });
+    //                     setTimeout(() => {
+    //                         setAlert({
+    //                             shouldShow: false,
+    //                             variant: "success",
+    //                             message: "successfully signed up!",
+    //                         });
+    //                         resetState();
+    //                         setLoginState(LoginState.LOGIN);
+    //                     }, 1500);
+    //                 })
+    //                 .catch(() => {
+    //                     setAlert({
+    //                         shouldShow: true,
+    //                         variant: "danger",
+    //                         message:
+    //                             "This phone number already has an account!",
+    //                     });
+    //                 });
+
+    //             break;
+    //         case LoginState.VERIFICATION_CONTACT:
+    //             if (errors.phone_number === "") {
+    //                 await AuthenticationApi.sendVerificationCode(
+    //                     formData.phone_number
+    //                 )
+    //                     .then(() => {
+    //                         startTimer();
+    //                         setLoginState(LoginState.VERIFICATION_CODE);
+    //                     })
+    //                     .catch(() => {});
+    //             } else {
+    //             }
+    //             break;
+    //         case LoginState.VERIFICATION_CODE:
+    //             await AuthenticationApi.verifyCode(
+    //                 formData.phone_number,
+    //                 formData.code
+    //             )
+    //                 .then(() => {
+    //                     setLoginState(LoginState.SIGNUP);
+    //                 })
+    //                 .catch(() => {
+    //                     let newErrors = { ...errors };
+    //                     newErrors.code = "Invalid code";
+    //                     setErrors(newErrors);
+    //                 });
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // };
 
     function validateNationalCode(nationalCode) {
         if (!/^\d{10}$/.test(nationalCode)) return false;
@@ -207,9 +278,6 @@ const Login = ({ show, onHide }) => {
             passwordRepeat: "",
             verifyCode: "",
             birthDate: "1-1-1",
-        });
-        setAlert({
-            shouldShow: false,
         });
         setTouch({});
     };
@@ -510,4 +578,4 @@ const Login = ({ show, onHide }) => {
     );
 };
 
-export default Login;
+export default LoginModal;
