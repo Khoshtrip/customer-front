@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Card, Badge, Carousel, ListGroup, Stack } from "react-bootstrap";
+import StarRating from "./StarRating";
 
 const PackageCard = ({ pkg, onPackageClick }) => {
     const [isHovered, setIsHovered] = useState(false);
@@ -72,6 +73,11 @@ const PackageCard = ({ pkg, onPackageClick }) => {
                     <Stack direction="horizontal">
                         <strong>End Date:</strong>
                         <div className="ms-auto">{pkg.end_date}</div>
+                    </Stack>
+
+                    <Stack direction="horizontal">
+                        <strong>Rating:</strong>
+                        <div className="ms-auto">{pkg.rating}/5</div>
                     </Stack>
                     <Badge bg="primary mt-2">${pkg.price}</Badge>
                 </Stack>

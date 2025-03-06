@@ -48,6 +48,9 @@ const HeaderTabs = ({ isAuthenticated }) => {
                     <Nav.Link href="/profile" className="on-primary">
                         Profile
                     </Nav.Link>
+                    <Nav.Link href="/history" className="on-primary">
+                        History
+                    </Nav.Link>
                 </>
             )}
         </>

@@ -7,6 +7,7 @@ import PaginationItems from "../components/core/PaginationItems";
 import Khoshpinner from "../components/core/Khoshpinner";
 import { showGlobalAlert } from "../components/core/KhoshAlert";
 import PackagesPageHeader from "../components/packages/PackagesPageHeader";
+import { useNavigate } from "react-router-dom";
 
 const PackageList = ({ packages, onPackageClick }) => {
     return (
@@ -31,6 +32,7 @@ const PackagesPage = () => {
     const [npages, setNpages] = useState(1);
     const [limit, setLimit] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     const onFilterChange = (filters) => {
         setFilters(filters);
@@ -68,7 +70,7 @@ const PackagesPage = () => {
     const onPurchasePackage = async (packageId, quantity) => {
         await PackagesApi.generateTransaction(packageId, quantity)
             .then((response) => {
-                window.location.href = response.data.payment_url;
+                navigate(`/purchase/${response.data.transaction_id}`);
             })
             .catch((error) => {
                 showGlobalAlert({
