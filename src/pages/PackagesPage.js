@@ -40,19 +40,17 @@ const PackagesPage = () => {
         setIsLoading(true);
         await PackagesApi.getPackages(filters, (page - 1) * limit, limit)
             .then((response) => {
-                console.log(response);
                 setPackages(
                     response.data.packages.map((pkg) => {
                         return {
                             ...pkg,
                             photos: pkg.photos.map(
                                 (image) =>
-                                    `http://localhost:8000/api/image/${image}/download/`
+                                    `http://api.khosh-trip.ir/api/image/${image}/download/`
                             ),
                         };
                     })
                 );
-                console.log(packages);
 
                 setNpages(Math.ceil(response.data.count / limit));
             })

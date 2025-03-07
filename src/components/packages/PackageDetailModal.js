@@ -25,7 +25,7 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
                         ...data.data,
                         photos: data.data.photos.map(
                             (image) =>
-                                `http://localhost:8000/api/image/${image}/download/`
+                                `http://api.khosh-trip.ir/api/image/${image}/download/`
                         ),
                     })
                 )
