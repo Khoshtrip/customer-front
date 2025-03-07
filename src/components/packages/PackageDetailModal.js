@@ -10,13 +10,15 @@ import {
 } from "react-bootstrap";
 import { PackagesApi } from "../../apis/PackagesApi"; // API call to fetch package details
 import Khoshpinner from "../core/Khoshpinner";
+import StarRating from "./StarRating";
+import { showGlobalAlert } from "../core/KhoshAlert";
 
 const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
     const [packageData, setPackageData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
 
-    useEffect(() => {
+    const getPackageData = (packageId) => {
         if (packageId) {
             setLoading(true);
             PackagesApi.getPackageById(packageId)
@@ -29,9 +31,34 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
                         ),
                     })
                 )
+                .catch((error) => {
+                    console.log(error);
+                })
                 .finally(() => setLoading(false));
         }
+    };
+
+    useEffect(() => {
+        getPackageData(packageId);
     }, [packageId]);
+
+    const onRatePackage = async (packageId, rating) => {
+        await PackagesApi.ratePackage(packageId, rating)
+            .then((response) => {
+                showGlobalAlert({
+                    variant: "success",
+                    message: "thanks for the rating!",
+                });
+                getPackageData(packageId);
+            })
+            .catch(() => {
+                showGlobalAlert({
+                    variant: "warning",
+                    message: "Unable to rate. You can only rate once!",
+                });
+            })
+            .finally(() => {});
+    };
 
     return (
         <Modal show={show} onHide={onHide} size="lg" centered>
@@ -65,7 +92,7 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
                         ))}
                     </Carousel>
                 )}
-                <ListGroup variant="flush">
+                <ListGroup variant="flush" className="mt-4">
                     <ListGroup.Item>
                         <strong>Price:</strong> ${packageData?.price}
                     </ListGroup.Item>
@@ -82,6 +109,12 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
                     <ListGroup.Item>
                         <strong>Description:</strong> {packageData?.description}
                     </ListGroup.Item>
+
+                    <ListGroup.Item>
+                        <strong>rating:</strong> {packageData?.rating}/5 from{" "}
+                        {packageData?.ratings_count} counts
+                    </ListGroup.Item>
+
                     {packageData?.flight && (
                         <ListGroup.Item>
                             <strong>Flight:</strong> {packageData.flight.name}
@@ -104,7 +137,7 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
                     )}
                 </ListGroup>
             </Modal.Body>
-            <Modal.Footer as={Row}>
+            <Modal.Footer as={Row} className="mx-4">
                 <Form>
                     <Stack direction="horizontal">
                         <Form.Control
@@ -117,14 +150,19 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
                         />
                         <Button
                             variant="success"
-                            className="float-end rounded-pill px-4 ms-2"
-                            style={{ width: "90%" }}
+                            className="float-end rounded-pill px-4 ms-2 me-2"
+                            style={{ width: "70%" }}
                             onClick={() =>
                                 onPurchasePackage(packageId, quantity)
                             }
                         >
                             Purchase
                         </Button>
+                        <StarRating
+                            packageId={packageId}
+                            style={{ width: "40%" }}
+                            onRate={onRatePackage}
+                        />
                     </Stack>
                 </Form>
             </Modal.Footer>

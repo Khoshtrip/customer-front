@@ -277,7 +277,7 @@ const LoginModal = ({ show, onHide }) => {
             lastName: "",
             passwordRepeat: "",
             verifyCode: "",
-            birthDate: "1-1-1",
+            birthDate: "0000-00-00",
         });
         setTouch({});
     };

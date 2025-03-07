@@ -38,24 +38,7 @@ const FilterComponent = ({ showFilters, onFilterChange, onApplyFilters }) => {
                 <div className="mb-3 w-100">
                     <Form onSubmit={handleSubmit}>
                         <Row>
-                            <Col md={6} className="mb-3">
-                                <Form.Label>Search</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Search "
-                                    name="search"
-                                    value={filters.search}
-                                    onChange={(e) =>
-                                        handleFilterChange(
-                                            "search",
-                                            e.target.value
-                                        )
-                                    }
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={6} className="mb-3 d-flex flex-column">
+                            <Col md={6} className="d-flex flex-column">
                                 <Form.Label>Min Price</Form.Label>
                                 <Form.Range
                                     value={filters.minPrice}
@@ -71,7 +54,7 @@ const FilterComponent = ({ showFilters, onFilterChange, onApplyFilters }) => {
                                 />
                                 <Form.Text>{filters.minPrice}</Form.Text>
                             </Col>
-                            <Col md={6} className="mb-3">
+                            <Col md={6}>
                                 <Form.Label>Max Price</Form.Label>
                                 <Form.Range
                                     value={filters.maxPrice}
@@ -89,35 +72,19 @@ const FilterComponent = ({ showFilters, onFilterChange, onApplyFilters }) => {
                             </Col>
                         </Row>
                         <Row>
-                            <Col md={6} className="mb-3">
-                                <Form.Check
-                                    type="checkbox"
-                                    label="Stock Available"
-                                    name="stockAvailable"
-                                    checked={filters.stockAvailable}
-                                    onChange={(e) =>
-                                        handleFilterChange(
-                                            "stockAvailable",
-                                            e.target.checked
-                                        )
-                                    }
-                                />
-                                <Form.Check
-                                    type="checkbox"
-                                    label="Is Active"
-                                    name="isActive"
-                                    checked={filters.isActive}
-                                    onChange={(e) =>
-                                        handleFilterChange(
-                                            "isActive",
-                                            e.target.checked
-                                        )
-                                    }
-                                />
-                            </Col>
-                            <Col md={6} className="mb-3">
-                                <Button type="submit">Search</Button>
-                            </Col>
+                            <Form.Control
+                                className="mb-3"
+                                type="text"
+                                placeholder="Search "
+                                name="search"
+                                value={filters.search}
+                                onChange={(e) =>
+                                    handleFilterChange("search", e.target.value)
+                                }
+                            />
+                            <Button type="submit" className="mb-3">
+                                Search
+                            </Button>
                         </Row>
                     </Form>
                 </div>
