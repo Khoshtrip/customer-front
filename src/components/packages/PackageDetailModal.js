@@ -143,7 +143,7 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
                 </ListGroup>
             </Modal.Body>
             <Modal.Footer as={Row}>
-                <Container className="d-flex justify-content-center align-items-center">
+                <Container className="d-flex justify-content-center align-items-center mx-2">
                     <Form>
                         <Stack
                             direction="horizontal"
