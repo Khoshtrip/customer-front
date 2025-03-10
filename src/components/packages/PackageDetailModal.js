@@ -7,6 +7,7 @@ import {
     Row,
     Form,
     Stack,
+    Container,
 } from "react-bootstrap";
 import { PackagesApi } from "../../apis/PackagesApi"; // API call to fetch package details
 import Khoshpinner from "../core/Khoshpinner";
@@ -141,36 +142,37 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
                     )}
                 </ListGroup>
             </Modal.Body>
-            <Modal.Footer
-                as={Row}
-                className="mx-4 justify-content-mx-center text-center flex-column justify-content-center align-items-center"
-            >
-                <Form>
-                    <Stack direction="horizontal">
-                        <Form.Control
-                            type="number"
-                            placeholder="Quantity"
-                            value={quantity}
-                            onChange={(e) => handleQuantityChange(e.target.value)}
-                            style={{ width: "20%" }}
-                        />
-                        <Button
-                            variant="success"
-                            className="float-end rounded-pill px-4 ms-2 me-2"
-                            style={{ width: "40%" }}
-                            onClick={() =>
-                                onPurchasePackage(packageId, quantity)
-                            }
-                        >
-                            Purchase
-                        </Button>
-                        <StarRating
-                            packageId={packageId}
-                            style={{ width: "50%" }}
-                            onRate={onRatePackage}
-                        />
-                    </Stack>
-                </Form>
+            <Modal.Footer as={Row}>
+                <Container className="mx-4 justify-content-mx-center text-center flex-column justify-content-center align-items-center">
+                    <Form>
+                        <Stack direction="horizontal">
+                            <Form.Control
+                                type="number"
+                                placeholder="Quantity"
+                                value={quantity}
+                                onChange={(e) =>
+                                    handleQuantityChange(e.target.value)
+                                }
+                                style={{ width: "20%" }}
+                            />
+                            <Button
+                                variant="success"
+                                className="float-end rounded-pill px-4 ms-2 me-2"
+                                style={{ width: "40%" }}
+                                onClick={() =>
+                                    onPurchasePackage(packageId, quantity)
+                                }
+                            >
+                                Purchase
+                            </Button>
+                            <StarRating
+                                packageId={packageId}
+                                style={{ width: "50%" }}
+                                onRate={onRatePackage}
+                            />
+                        </Stack>
+                    </Form>
+                </Container>
             </Modal.Footer>
         </Modal>
     );
