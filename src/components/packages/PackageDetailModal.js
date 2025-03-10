@@ -18,6 +18,10 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
 
+    const handleQuantityChange = (quantity) => {
+        if (quantity >= 1) setQuantity(quantity);
+    };
+
     const getPackageData = (packageId) => {
         if (packageId) {
             setLoading(true);
@@ -137,21 +141,23 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
                     )}
                 </ListGroup>
             </Modal.Body>
-            <Modal.Footer as={Row} className="mx-4">
+            <Modal.Footer
+                as={Row}
+                className="mx-4 justify-content-mx-center text-center flex-column justify-content-center align-items-center"
+            >
                 <Form>
                     <Stack direction="horizontal">
                         <Form.Control
                             type="number"
                             placeholder="Quantity"
                             value={quantity}
-                            onChange={(e) => setQuantity(e.target.value)}
-                            style={{ width: "10%" }}
-                            // className="float-end me-2"
+                            onChange={(e) => handleQuantityChange(e.target.value)}
+                            style={{ width: "20%" }}
                         />
                         <Button
                             variant="success"
                             className="float-end rounded-pill px-4 ms-2 me-2"
-                            style={{ width: "70%" }}
+                            style={{ width: "40%" }}
                             onClick={() =>
                                 onPurchasePackage(packageId, quantity)
                             }
@@ -160,7 +166,7 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
                         </Button>
                         <StarRating
                             packageId={packageId}
-                            style={{ width: "40%" }}
+                            style={{ width: "50%" }}
                             onRate={onRatePackage}
                         />
                     </Stack>
