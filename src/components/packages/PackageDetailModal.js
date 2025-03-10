@@ -143,9 +143,13 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
                 </ListGroup>
             </Modal.Body>
             <Modal.Footer as={Row}>
-                <Container className="mx-4 justify-content-mx-center text-center flex-column justify-content-center align-items-center">
+                <Container className="d-flex justify-content-center align-items-center">
                     <Form>
-                        <Stack direction="horizontal">
+                        <Stack
+                            direction="horizontal"
+                            gap={3}
+                            className="justify-content-center align-items-center"
+                        >
                             <Form.Control
                                 type="number"
                                 placeholder="Quantity"
@@ -157,7 +161,7 @@ const PackageDetailModal = ({ show, onHide, packageId, onPurchasePackage }) => {
                             />
                             <Button
                                 variant="success"
-                                className="float-end rounded-pill px-4 ms-2 me-2"
+                                className="rounded-pill px-4"
                                 style={{ width: "40%" }}
                                 onClick={() =>
                                     onPurchasePackage(packageId, quantity)
