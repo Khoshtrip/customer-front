@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, Card } from "react-bootstrap";
 
-const HistoryCard = (key, purchase) => {
+const HistoryCard = ({ key, purchase }) => {
     return (
         <Card key={key} className="mb-3 shadow-sm" style={{ width: "100%" }}>
             <Card.Body>

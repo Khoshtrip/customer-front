@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 import HistoryCard from "../components/history/HistoryCard";
 
 const HistoryList = ({ data }) => {
+    console.log(data);
+
     return (
         <Container
             className="pt-2 mb-3 g-4 justify-content-mx-center"
@@ -37,7 +39,6 @@ const HistoryPage = () => {
 
         await HistoryApi.getPurchaseHistory()
             .then((response) => {
-                console.log(response);
                 setHistoryData(response.data);
             })
             .catch((error) => {
